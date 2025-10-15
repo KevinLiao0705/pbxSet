@@ -1,0 +1,11 @@
+    install java 11
+    sudo apt search openjdk
+    sudo apt install openjdk-11-jdk
+    sudo apt install make
+    sudo apt-get install gcc g++
+    sudo apt install net-tools
+    (controller need) sudo apt install ffmpeg -y
+
+    copy "voice/josn" path to "/usr/share/asterisk/sounds/en_US/"
+    copy "musiconhold.conf" file to "/etc/asterisk"
+    copy "phoneHoldingMusic.gsm" file to "/var/lib/asterisk/moh"

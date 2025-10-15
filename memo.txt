@@ -1,0 +1,358 @@
+#fxo pbx present when outline 22997166 call to pbx 104
+#=========================================================================================
+fxopbx@fxopbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+IAX2/sipPbx_0-3030   (None)               Up      AppDial((Outgoing Line))
+DAHDI/1-1            s@autocall:56        Up      Dial(IAX2/sipPbx_0/104,30)
+2 active channels
+1 active call
+1 call processed
+fxopbx@fxopbx:~$
+#
+#sip pbx present when outline 22997166 call to pbx 104
+#======================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000004   (None)               Up      AppDial((Outgoing Line))
+IAX2/fxoPbx_0-3521   104@from-pstn:4      Up      Dial(PJSIP/104,30)
+2 active channels
+1 active call
+4 calls processed
+mainpbx@mainpbx:~$
+#
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+......
+......        
+
+ Endpoint:  104                                                  In use        1 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-00000004/AppDial                          Up            00:01:19
+        Exten:                           CLCID: "fxo.0-0" <22996900>
+
+......
+......
+#
+#sip pbx present when outline 22997166 call to pbx 104, and 108 call to 104
+#======================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000004   (None)               Up      AppDial((Outgoing Line))
+PJSIP/104-00000006   (None)               Up      AppDial((Outgoing Line))
+PJSIP/108-00000005   104@from-pstn:4      Up      Dial(PJSIP/104,30)
+IAX2/fxoPbx_0-3521   104@from-pstn:4      Up      Dial(PJSIP/104,30)
+4 active channels
+2 active calls
+5 calls processed
+mainpbx@mainpbx:~$
+#
+......
+......        
+
+ Endpoint:  104                                                  In use        2 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-00000004/AppDial                          Up            00:13:45
+        Exten:                           CLCID: "fxo.0-0" <22996900>
+    Channel: PJSIP/104-00000006/AppDial                          Up            00:03:03
+        Exten:                           CLCID: "108Name" <108>
+
+......
+......        
+
+
+##########################################################################################
+
+
+
+#fxo pbx present when 104 call to outline 0911571153
+#=========================================================================================
+fxopbx@fxopbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+IAX2/sipPbx_0-8239   *90911571153@from-in Up      Dial(DAHDI/G1/0911571153)
+DAHDI/1-1            (None)               Up      AppDial((Outgoing Line))
+2 active channels
+1 active call
+2 calls processed
+fxopbx@fxopbx:~$
+
+
+
+
+
+#sip pbx present when 104 call to outline 0911571153
+#=========================================================================================
+
+fxopbx@fxopbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+IAX2/sipPbx_0-6607   *90911571153@from-in Up      Dial(DAHDI/G1/0911571153)
+DAHDI/1-1            (None)               Up      AppDial((Outgoing Line))
+2 active channels
+1 active call
+5 calls processed
+fxopbx@fxopbx:~$
+
+
+
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+......
+......
+
+ Endpoint:  104                                                  In use        1 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-00000001/Dial                             Up            00:03:55
+        Exten: *90911571153              CLCID: "" <>
+
+......
+......
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000001   *90911571153@fxoDire Up      Dial(IAX2/fxoPbx_0/*9091157115
+IAX2/fxoPbx_0-13976  (None)               Up      AppDial((Outgoing Line))
+2 active channels
+1 active call
+2 calls processed
+mainpbx@mainpbx:~$
+
+
+#sip pbx present when 104 call to outline 0911571153,108 call to 104
+#================================
+......
+......
+
+ Endpoint:  104                                                  In use        2 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-00000001/Dial                             Up            00:13:04
+        Exten: *90911571153              CLCID: "" <>
+    Channel: PJSIP/104-00000003/AppDial                          Up            00:02:19
+        Exten:                           CLCID: "108Name" <108>
+
+......
+......
+
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000001   *90911571153@fxoDire Up      Dial(IAX2/fxoPbx_0/*9091157115
+PJSIP/104-00000003   (None)               Up      AppDial((Outgoing Line))
+PJSIP/108-00000002   104@from-pstn:4      Up      Dial(PJSIP/104,30)
+IAX2/fxoPbx_0-13976  (None)               Up      AppDial((Outgoing Line))
+4 active channels
+2 active calls
+3 calls processed
+mainpbx@mainpbx:~$
+
+
+##########################################################################################
+
+
+
+#sip pbx present when 104 call to confirence call 700
+#================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000007   700@from-pstn:17     Up      ConfBridge(700,myconf700,admin
+CBAnn/700-00000000;2 s@default:1          Up      (None)
+CBAnn/700-00000000;1 s@default:1          Up      (None)
+3 active channels
+1 active call
+6 calls processed
+mainpbx@mainpbx:~$
+
+#sip pbx present when 104 call to confirence call 700, and 108 in 
+#=================================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-00000007   700@from-pstn:17     Up      ConfBridge(700,myconf700,admin
+CBAnn/700-00000000;2 s@default:1          Up      (None)
+CBAnn/700-00000000;1 s@default:1          Up      (None)
+PJSIP/108-00000008   700@from-pstn:17     Up      ConfBridge(700,myconf700,admin
+4 active channels
+2 active calls
+7 calls processed
+mainpbx@mainpbx:~$
+
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+ ......
+ ......
+         
+ Endpoint:  104                                                  In use        1 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-00000007/ConfBridge                       Up            00:04:37
+        Exten: 700                       CLCID: "" <>
+
+ ......
+ ......
+
+ Endpoint:  108                                                  In use        1 of inf
+     InAuth:  108/108
+        Aor:  108                                                1
+      Contact:  108/sip:108@192.168.1.53:5062              3c3f656e3d NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/108-00000008/ConfBridge                       Up            00:02:05
+        Exten: 700                       CLCID: "" <>
+
+ ......
+ ......
+
+##########################################################################################
+
+#fxo pbx present when 22991766 call to confirence call 700
+#=================================================================
+fxopbx@fxopbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+DAHDI/1-1            s@autocall:108       Up      Dial(IAX2/sipPbx_0/700,30)
+IAX2/sipPbx_0-1571   (None)               Up      AppDial((Outgoing Line))
+2 active channels
+1 active call
+4 calls processed
+fxopbx@fxopbx:~$
+
+
+#sip pbx present when 22991766 call to confirence call 700
+#=================================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+IAX2/fxoPbx_0-6653   700@from-pstn:17     Up      ConfBridge(700,myconf700,admin
+CBAnn/700-00000001;2 s@default:1          Up      (None)
+CBAnn/700-00000001;1 s@default:1          Up      (None)
+3 active channels
+1 active call
+10 calls processed
+mainpbx@mainpbx:~$
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+no change
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################################
+
+
+#sip pbx present when 108 call to 104 ringing 
+#=================================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "core show channels"
+Channel              Location             State   Application(Data)
+PJSIP/104-0000000c   104@from-pstn:1      Ringing AppDial((Outgoing Line))
+PJSIP/108-0000000b   104@from-pstn:4      Ring    Dial(PJSIP/104,30)
+2 active channels
+1 active call
+9 calls processed
+mainpbx@mainpbx:~$
+
+
+
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+
+ Endpoint:  <Endpoint/CID.....................................>  <State.....>  <Channels.>
+    I/OAuth:  <AuthId/UserName...........................................................>
+        Aor:  <Aor............................................>  <MaxContact>
+      Contact:  <Aor/ContactUri..........................> <Hash....> <Status> <RTT(ms)..>
+  Transport:  <TransportId........>  <Type>  <cos>  <tos>  <BindAddress..................>
+   Identify:  <Identify/Endpoint.........................................................>
+        Match:  <criteria.........................>
+    Channel:  <ChannelId......................................>  <State.....>  <Time.....>
+        Exten: <DialedExten...........>  CLCID: <ConnectedLineCID.......>
+==========================================================================================
+ ......
+ ......
+
+ Endpoint:  104                                                  Ringing       1 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-0000000a/AppDial                          Ringing       00:00:13
+        Exten: 104                       CLCID: "108Name" <108>
+
+ ......
+ ......
+
+ Endpoint:  108                                                  In use        1 of inf
+     InAuth:  108/108
+        Aor:  108                                                1
+      Contact:  108/sip:108@192.168.1.53:5062              3c3f656e3d NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/108-00000009/Dial                             Ring          00:00:13
+        Exten: 104                       CLCID: "" <104>
+
+ ......
+ ......
+
+
+Objects found: 20
+
+mainpbx@mainpbx:~$
+
+
+
+
+##########################################################################################
+
+
+#sip pbx present when 108 call to 104 
+#=================================================================
+mainpbx@mainpbx:~$ sudo asterisk -rx "pjsip show endpoints"
+
+ Endpoint:  <Endpoint/CID.....................................>  <State.....>  <Channels.>
+    I/OAuth:  <AuthId/UserName...........................................................>
+        Aor:  <Aor............................................>  <MaxContact>
+      Contact:  <Aor/ContactUri..........................> <Hash....> <Status> <RTT(ms)..>
+  Transport:  <TransportId........>  <Type>  <cos>  <tos>  <BindAddress..................>
+   Identify:  <Identify/Endpoint.........................................................>
+        Match:  <criteria.........................>
+    Channel:  <ChannelId......................................>  <State.....>  <Time.....>
+        Exten: <DialedExten...........>  CLCID: <ConnectedLineCID.......>
+==========================================================================================
+
+......
+......
+
+ Endpoint:  104                                                  In use        1 of inf
+     InAuth:  104/104
+        Aor:  104                                                1
+      Contact:  104/sip:104@192.168.1.189:5060             8ba95bdf55 NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/104-0000000e/AppDial                          Up            00:00:09
+        Exten:                           CLCID: "108Name" <108>
+
+......
+......
+
+ Endpoint:  108                                                  In use        1 of inf
+     InAuth:  108/108
+        Aor:  108                                                1
+      Contact:  108/sip:108@192.168.1.53:5062              3c3f656e3d NonQual         nan
+  Transport:  transport-udp             udp      0      0  0.0.0.0:5060
+    Channel: PJSIP/108-0000000d/Dial                             Up            00:00:09
+        Exten: 104                       CLCID: "" <104>
+
+......
+......

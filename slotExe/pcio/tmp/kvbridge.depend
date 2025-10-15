@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1471182304 source:/home/pi/kevin/mycpp/kvbridge/bridge.cpp
+	<iostream>
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<string.h>
+	<unistd.h>
+	<pthread.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+	"uvm_timer.hpp"
+	"uvm_usart.hpp"
+	<wiringSerial.h>
+	<wiringPi.h>
+	<wiringPiSPI.h>
+
+1433420322 /home/pi/kevin/mycpp/kvbridge/uvm_timer.hpp
+
+1433509412 /home/pi/kevin/mycpp/kvbridge/uvm_usart.hpp
+
+1433420544 source:/home/pi/kevin/mycpp/kvbridge/uvm_timer.cpp
+	<time.h>
+	<stdio.h>
+	"uvm_timer.hpp"
+	<string.h>
+	<sys/time.h>
+	<unistd.h>
+
+1433525220 source:/home/pi/kevin/mycpp/kvbridge/uvm_usart.cpp
+	"uvm_usart.hpp"
+	<stdio.h>
+	<stdlib.h>
+	<termios.h>
+	<sys/ioctl.h>
+	<unistd.h>
+	<fcntl.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<limits.h>
+	<memory.h>
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	"stm32f10x_conf.h"
+	"stm32f10x_usart.h"
+	"stm32f10x_gpio.h"
+	"stm32f10x_rcc.h"
+	"stm32f4xx_usart.h"
+	"stm32f4xx_gpio.h"
+	"stm32f4xx_rcc.h"
+	"stm32f4xx.h"
+	"stm32f407ze_evb_jins.h"
+

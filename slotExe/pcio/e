@@ -1,0 +1,10 @@
+#!/bin/bash
+
+nano main.cpp
+make
+if [ ${?} != 0 ]; then
+	echo "Compile Error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+else
+	sudo ./main
+fi
+cd ..			

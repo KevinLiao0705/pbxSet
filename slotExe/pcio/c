@@ -1,0 +1,9 @@
+#!/bin/bash
+
+make
+if [ ${?} != 0 ]; then
+	echo "Compile Error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+else
+	sudo ./main
+fi
+cd ..			
