@@ -431,7 +431,7 @@ public class PbxSet {
                 }
                 content += "\n";
                 content += "\n[phone" + (inx + 1) + "]";
-                content += "\ndahdichan=" + (obj.channel + 1);
+                content += "\ndahdichan=" + (obj.channel + 5);
                 content += "\nsignalling=fxo_ks";
                 content += "\ncallerid=" + obj.no;
                 content += "\ncontext=from-dahdi";
@@ -566,7 +566,12 @@ public class PbxSet {
                 content += "\ntype=endpoint";
                 content += "\ncontext=from-pstn";
                 content += "\ndisallow=all";
+                content += "\nallow=speex16";
                 content += "\nallow=ulaw";
+                content += "\nallow=alaw";
+                
+                
+                
                 content += "\ntransport=transport-udp";
                 content += "\nauth=" + obj.no + "";
                 content += "\naors=" + obj.no + "";
@@ -627,8 +632,11 @@ public class PbxSet {
                 //content += "\ncontext=from-pstn";
                 content += "\ncontext=" + pbxStr + "_in";
                 content += "\ndisallow=all";
+                content += "\nallow=speex16";
                 content += "\nallow=ulaw";
                 content += "\nallow=alaw";
+                
+                
                 content += "\noutbound_auth=" + pbxStr;
                 content += "\naors=" + pbxStr;
 
@@ -711,6 +719,7 @@ public class PbxSet {
                 //content += "\ncontext=from-pstn";
                 content += "\ncontext=" + pbxStr + "_in";
                 content += "\ndisallow=all";
+                content += "\nallow=speex16";
                 content += "\nallow=ulaw";
                 content += "\nallow=alaw";
                 content += "\noutbound_auth=" + pbxStr;
@@ -807,6 +816,7 @@ public class PbxSet {
         content += "\nexten => " + "_*41." + "," + "1" + ",Goto(magTrunk1,${EXTEN:3},1)";
         content += "\nexten => " + "_*42." + "," + "1" + ",Goto(magTrunk2,${EXTEN:3},1)";
         content += "\nexten => " + "_*43." + "," + "1" + ",Goto(magTrunk3,${EXTEN:3},1)";
+        content += "\nexten => " + "_*870." + "," + "1" + ",Goto(monitorSeg,${EXTEN},1)";
         content += "\nexten => " + "_*9." + "," + "1" + ",Goto(fxoDirect0,${EXTEN},1)";
 
         int len = 0;
@@ -917,12 +927,18 @@ public class PbxSet {
 
             content += "\n";
             content += "\n[" + pbxStr + "_in" + "]";
-            content += "\nexten => " + "_." + ",1,NoOp()";
+            content += "\nexten => " + "_X." + ",1,NoOp()";
             //content += "\nexten => " + "_."  + "," + "1" + ",Goto(" + "from-pstn" + ",${EXTEN:"+strA[4].length()+"},1)";
             content += "\n  same => n,Set(CALLERID(name)=<pbx" + noStr + ">${CALLERID(name)})";
             content += "\n  same => n,Goto(" + "from-pstn" + ",${EXTEN:" + strA[4].length() + "},1)";
 
         }
+
+        //===================================================================================
+        content += "\n";
+        content += "\n[" + "monitorSeg" + "]";
+        content += "\nexten => " + "_*870." + ",1,NoOp()";
+        content += "\n  same => n,ChanSpy(" + "PJSIP/" + "${EXTEN:4})";
 
         //===================================================================================
         content += "\n";
@@ -1485,7 +1501,9 @@ public class PbxSet {
                     fstr = "/home/" + GB.mainpbx_hostName + "/kevin/pbxSetExe/record/";
                     fstr += "${STRFTIME(${EPOCH},,%y%m%d_%H%M%S)}_${EXTEN}_${CALLERID(num)}.gsm";
                     content += "\n  same => " + "n" + ",MixMonitor(" + fstr + ",b)";
-                    String exten = "" + (obj.channel + 1);
+                        String exten = "" + (obj.channel + 1);
+                    if(slotType.equals("mag"))
+                        exten = "" + (obj.channel + 5);
                     String dialTarget = getIaxHead(slotType, slotCnt, obj.type, obj.slotCnt) + exten;
                     content += "\n  same => n,Dial(" + dialTarget + "," + obj.sipPhoneRingTime + ")";
                     content += "\n  same => n,Hangup()";

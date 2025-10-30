@@ -52,14 +52,18 @@ public class Ics {
     KvComm fpgaComm;
     KvComm sip0Comm;
     KvComm sip1Comm;
+    KvComm sip2Comm;
     int mainSoftPhone_exist_f = 1;
     int subSoftPhone_exist_f = 1;
+    int monitorPhone_exist_f = 1;
     //String mainSoftPhone_ip = "192.168.0.33";
     //String subSoftPhone_ip = "192.168.0.39";
     int mainSoftPhone_port = 1236;
     int subSoftPhone_port = 1236;
+    int monitorPhone_port = 1236;
     int sipSocketPort0 = 1336;
     int sipSocketPort1 = 1337;
+    int sipSocketPort2 = 1338;
     //====================
     int myDeviceId = 0x2712;
     int mySerialId = 0x0000;
@@ -88,6 +92,7 @@ public class Ics {
     int emuTimer = 0;
     HashMap<String, Object> sip0Commands;
     HashMap<String, Object> sip1Commands;
+    HashMap<String, Object> sip2Commands;
     TaskStack taskStack;
     ConsoleMain cm1;
     ConsoleSlot cs1, cs2, cs3, cs4, cs5, cs6;
@@ -102,6 +107,7 @@ public class Ics {
         Ics.scla = this;
         sip0Commands = new HashMap<String, Object>();
         sip1Commands = new HashMap<String, Object>();
+        sip2Commands = new HashMap<String, Object>();
         taskMap = new HashMap<String, CmdTask>();
         cla.getParaSetMap();
         icsData = new IcsData();
@@ -152,7 +158,8 @@ public class Ics {
                         default:
                             if (taskStack.taskEnd(task) == 1) {
                                 cla.icsData.actionStep = task.stepInx;
-                                if (slotCnt != 3) {
+                                
+                                if (icsData.slotDatas[slotCnt].status==4) {
                                     icsData.actionInf = "\n測試成功";
                                     icsData.actionStatus = 2;
                                 } else {
@@ -196,6 +203,21 @@ public class Ics {
         });
         sip1Comm.open();
         //=======================================================================
+        sip2Comm = new KvComm("sipData2", "serverSocket");
+        sip2Comm.serverSocket.format = 1;
+        sip2Comm.serverSocket.rxcon_ltim = 100;
+        sip2Comm.serverSocket.port = sipSocketPort2;
+        sip2Comm.serverSocket.stm.setCallBack(new BytesCallback() {
+            @Override
+            public String prg(byte[] bytes, int len) {
+                return sipRxPrg(bytes, len, 1);
+            }
+        });
+        sip2Comm.open();
+        //=======================================================================
+        
+        
+        
 
         if (icsTimer == null) {
             icsTimer = new Timer(20, new IcsTm1(cla));  //about 30ms 
@@ -333,6 +355,9 @@ public class Ics {
         }
         if (serialId == 2) {
             sipData = icsData.sipData1;
+        }
+        if (serialId == 3) {
+            sipData = icsData.sipData2;
         }
         if (sipData == null) {
             return null;
@@ -962,6 +987,22 @@ class IcsTm1 implements ActionListener {
                     }
                 }
             }
+            
+            if (cla.monitorPhone_exist_f != 0) {
+                cla.sip2Comm.serverSocket.tx_ip = strA[3];
+                cla.sip2Comm.serverSocket.tx_port = cla.monitorPhone_port;
+                cla.sip2Commands.put("click", 0);
+                if (cla.sip2Comm.serverSocket.tx_startMode.length() == 0) {
+                    commSip(cla.sip2Comm, cla.sip2Commands);
+                    cla.icsData.sipData2.connectTime++;
+                    if (cla.icsData.sipData2.connectTime == 30) {
+                        cla.icsData.sipData2.sipStatus = "中山科學研究院";
+                        cla.icsData.sipData2.sipAction = "軟體電話 (未連線)";
+                    }
+                }
+            }
+            
+            
             commandPrg();
         } catch (Exception ex) {
             ex.printStackTrace();

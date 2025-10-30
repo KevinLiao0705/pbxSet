@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Set;
 //asterisk sound location: usr/share/asterisk/sounds/en/
 
 public class ConsoleSlot {
@@ -55,11 +56,13 @@ public class ConsoleSlot {
     NowSlotSta nsta = new NowSlotSta();
     Map<String, CmdObj> cmdObjMap;
 
+    int exStatusFlag = 0;
     int pbxStatusTim = 0;
     int pbxStatusDly = 10;
     int pjsipShowAors_f = 0;
     int pjsipListEndpoints_f = 0;
     int pjsipShowEndpoints_f = 0;
+    int dahdiShowChannel_f = 0;
     int coreShowChannels_f = 0;
     int pjsipAction_f = 0;
     int pjsipShowChannelStats_f = 1;
@@ -176,7 +179,7 @@ public class ConsoleSlot {
     }
 
     public void socketServerReturn() {
-        byte[] sockUartData_buf = new byte[22];
+        byte[] sockUartData_buf = new byte[64];
         int inx = 0;
         sockUartData_buf[inx++] = (byte) ((myDeviceId) & 255);
         sockUartData_buf[inx++] = (byte) ((myDeviceId >> 8) & 255);
@@ -203,10 +206,23 @@ public class ConsoleSlot {
         sockUartData_buf[inx++] = (byte) ((GB.realIp[2]) & 255);
         sockUartData_buf[inx++] = (byte) ((GB.realIp[3]) & 255);
 
-        sockUartData_buf[inx++] = (byte) ((nsta.ledFlag) & 255);
-        sockUartData_buf[inx++] = (byte) ((nsta.ledFlag >> 8) & 255);
-        sockUartData_buf[inx++] = (byte) ((nsta.ledFlag >> 16) & 255);
-        sockUartData_buf[inx++] = (byte) ((nsta.ledFlag >> 24) & 255);
+        sockUartData_buf[inx++] = (byte) ((exStatusFlag) & 255);
+        sockUartData_buf[inx++] = (byte) ((exStatusFlag >> 8) & 255);
+        sockUartData_buf[inx++] = (byte) ((exStatusFlag >> 16) & 255);
+        sockUartData_buf[inx++] = (byte) ((exStatusFlag >> 24) & 255);
+
+        if (!GB.paraSetMap.isEmpty()) {
+            String magPhoneNumber = GB.paraSetMap.get("magPhoneCallNumber").toString();
+            byte[] bts = magPhoneNumber.getBytes();
+            int len = bts.length & 15;
+            if (len != 0) {
+                sockUartData_buf[inx++] = (byte) (0xab);
+                sockUartData_buf[inx++] = (byte) (len);
+                for (int i = 0; i < len; i++) {
+                    sockUartData_buf[inx++] = bts[i];
+                }
+            }
+        }
 
         int sockUartData_len = inx;
 
@@ -447,6 +463,72 @@ public class ConsoleSlot {
             return inx;
         }
 
+        if (nsta.action.equals("dahdiShowChannel")) {
+            if (strA[index].contains("Channel:")) {
+                strB = strA[index].trim().split("\\s+");
+                int ch = Lib.str2int(strB[1], 0) - 5;
+                if (ch >= 0 && ch <= 3) {
+                    dahdiShowChannel_f = 1;
+                    if (exStaMapTmp == null) {
+                        exStaMapTmp = new HashMap<String, ExStatus>();
+                    }
+                    exStaTmp = new ExStatus("");
+                    exStaTmp.ch = ch;
+                }
+                return inx;
+            }
+            if (dahdiShowChannel_f == 1) {
+                if (strA[index].contains("Dialing: yes")) {
+                    exStaTmp.flag |= 1;
+                    return inx;
+                }
+                if (strA[index].contains("Owner: DAHDI")) {
+                    exStaTmp.flag |= 2;
+                    return inx;
+                }
+                if (strA[index].contains("currently ON")) {
+                    exStaTmp.flag |= 4;
+                    return inx;
+                }
+                if (strA[index].contains("Caller ID:")) {
+                    strB = strA[index].trim().split("\\s+");
+                    exStaTmp.name = strB[2];
+                    return inx;
+                }
+                if (strA[index].contains("Hookstate")) {
+                    if (strA[index].contains("Offhook")) {
+                        exStaTmp.flag |= 8;
+                    }
+
+                    if (exStaTmp.name.length() != 0) {
+                        exStaTmp.status = 2;
+                        if (exStaTmp.flag == 3)//local ring
+                        {
+                            exStaTmp.status = 5;
+                        }
+                        if (exStaTmp.flag == 6)//dialing
+                        {
+                            exStaTmp.status = 4;
+                        }
+                        if (exStaTmp.flag == 14) {
+                            exStaTmp.status = 3;
+                        }
+                        if (exStaMapTmp != null) {
+                            exStaMapTmp.put(exStaTmp.name, exStaTmp);
+                        }
+                        if (exStaTmp.name.equals("404")) {
+                            int hh = 1;
+
+                        }
+                        exStaTmp = null;
+                        pjsipAction_f = 0;
+                        dahdiShowChannel_f = 0;
+                        return inx;
+                    }
+                }
+            }
+        }
+
         if (nsta.action.equals("pjsipShowEndpoints")) {
             if (strA[index].contains("Endpoint:  <Endpoint/CID...")) {
                 exStaMapTmp = new HashMap<String, ExStatus>();
@@ -467,12 +549,12 @@ public class ConsoleSlot {
                     }
                     if (strB[2].equals("Not in use")) {
                         exStaTmp.status = 2;
-                        if(exStaTmp.name.equals("137")){
-                            int xxx=1;
+                        if (exStaTmp.name.equals("137")) {
+                            int xxx = 1;
                         }
                     }
                     if (strB[2].equals("In use")) {
-                        
+
                         exStaTmp.status = 3;
                         //System.out.println("\n"+"pjsipShowEndpoints In use");
                     }
@@ -485,8 +567,8 @@ public class ConsoleSlot {
 
                 if (strA[index].contains("Contact:")) {
                     if (exStaTmp != null) {
-                        if(exStaTmp.name.equals("137")){
-                            int xxx=1;
+                        if (exStaTmp.name.equals("137")) {
+                            int xxx = 1;
                         }
                         if (exStaTmp.status == 1) {
                             exStaTmp.status = 2;
@@ -1372,18 +1454,17 @@ class ConsoleSlotTm1 extends TimerTask {
             if (cla.nsta.action.equals("")) {
                 cla.pbxStatusTim = 0;
                 if (cla.nsta.asteriskSta == 1) {
-                    if (++cla.nstaStep >= 1) {
-                        cla.nstaStep = 0;
-                    }
-                    if (cla.nstaStep == 0) {
-                        if (cla.nsta.type.equals("sip")) {
+                    if (cla.nsta.type.equals("sip")) {
+                        if (++cla.nstaStep >= 1) {
+                            cla.nstaStep = 0;
+                        }
+                        if (cla.nstaStep == 0) {
                             cla.nsta.action = "pjsipShowEndpoints";
                             cla.nsta.actionTim = 50;
                             cla.pbxSet.sshWriteShl("sudo asterisk -rx \"pjsip show endpoints\"\n");
                             cla.pjsipAction_f = 1;
                         }
-                    }
-                    /*
+                        /*
                     if (cla.nstaStep == 1) {
                         cla.nsta.action = "pjsipListEndpoints";
                         cla.nsta.actionTim = 50;
@@ -1399,7 +1480,34 @@ class ConsoleSlotTm1 extends TimerTask {
                         cla.nsta.actionTim = 50;
                         cla.pbxSet.sshWriteShl("sudo asterisk -rx \"pjsip show channelstats\"\n");
                     }
-                     */
+                         */
+
+                    }
+
+                    if (cla.nsta.type.equals("mag")) {
+                        cla.exStatusFlag = 0;
+                        if (cla.exStaMapTmp != null) {
+                            Set<String> keySet = cla.exStaMapTmp.keySet();
+                            for (String keyStr : keySet) {
+                                ExStatus ex = cla.exStaMapTmp.get(keyStr);
+                                ex.connectTime++;
+                                if (ex.connectTime > 50 * 4) {
+                                    cla.exStaMapTmp.remove(keyStr);
+                                }
+                                cla.exStatusFlag += ex.status << (ex.ch * 4);
+                            }
+                            cla.exStaMap = cla.exStaMapTmp;
+                        }
+                        if (++cla.nstaStep >= 4) {
+                            cla.nstaStep = 0;
+                        }
+                        cla.nsta.action = "dahdiShowChannel";
+                        cla.nsta.actionTim = 10;
+                        cla.pbxSet.sshWriteShl("sudo asterisk -rx \"dahdi show channel " + (cla.nstaStep + 5) + "\"\n");
+                        cla.pjsipAction_f = 1;
+
+                    }
+
                 }
             }
             /*

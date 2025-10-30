@@ -57,7 +57,7 @@ public class ConsoleMain {
     int[] getSlotDataRxfs = new int[16];
     int debugCnt = 0;
     Ics owner;
-
+    int pcioConTime=0;
     //===========================
     public ConsoleMain(Ics _owner) {
         ConsoleMain.scla = this;
@@ -283,6 +283,10 @@ public class ConsoleMain {
             cla.tm1 = new Timer();
             tm1.schedule(new ConsoleMainTm1(cla), 1000, 20);
         }
+        //
+        if(GB.webSocketIp.length()!=0)
+            KvWebSocketServer.startWebSocketServer(GB.webSocketIp,GB.webSocketServerPort);//<<debug
+
         //=====================================
         System.out.println("ConsoleMain Ready.");
         while (true) {
@@ -366,6 +370,7 @@ public class ConsoleMain {
             int deviceSerialId = (bts[inx + 3] & 255) * 256 + (bts[inx + 2] & 255);
             inx += 4;
             if (deviceId == myDeviceId && deviceSerialId == 0x00) {//from slot device
+                pcioConTime=0;
                 while (inx + 4 < inxLim) {
                     int groupFlag = (bts[inx + 1] & 255) * 256 + (bts[inx + 0] & 255);
                     int dataLen = (bts[inx + 3] & 255) * 256 + (bts[inx + 2] & 255);
@@ -954,6 +959,16 @@ class ConsoleMainTm1 extends TimerTask {
         }
         
         
+        cla.pcioConTime++;
+        if(cla.pcioConTime==100){
+            for(int i=0;i<14;i++){
+                cla.icsData.slotDatas[i].type="";
+                cla.icsData.slotDatas[i].count=0;
+                cla.icsData.slotDatas[i].status=0;
+            }    
+        }
+        
+        
         if (cla.icsData.logStr.length() != 0) {
             Base3.log.info(cla.icsData.logStr);
             cla.icsData.logStr = "";
@@ -966,7 +981,15 @@ class ConsoleMainTm1 extends TimerTask {
                     getSlotDataTime = 0;
                     for (int i = 0; i < slotDatas.length; i++) {
                         SlotData sd = slotDatas[i];
-                        if (sd.exist_f == 1 && sd.type.equals("sip")) {
+                        int get_f=0;
+                        if(sd.type.equals("sip"))
+                            get_f=1;
+                        if(sd.type.equals("fxs"))
+                            get_f=1;
+                        if(sd.type.equals("mag"))
+                            get_f=1;
+                        
+                        if (sd.exist_f == 1 && get_f==1) {
                             int txYes_f = 0;
                             if (cla.getSlotDataRxfs[i] == 1) {
                                 cla.getSlotDataTimes[i]++;

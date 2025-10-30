@@ -9,6 +9,8 @@ public class ExStatus {
     String callFromName="";
     String callToNo="";
     int connectTime=0;
+    int flag=0;
+    int ch=0;
     public ExStatus(String _key) {
         name = _key;
     }

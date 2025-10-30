@@ -19,6 +19,7 @@ class IcsData {
     byte load_f;
     SipData sipData0;
     SipData sipData1;
+    SipData sipData2;
     SlotData[] slotDatas = new SlotData[14];
     String actionStr = "";
     int actionStep = 0;
@@ -39,6 +40,7 @@ class IcsData {
         }
         sipData0 = new SipData();
         sipData1 = new SipData();
+        sipData2 = new SipData();
         //debug();
     }
 

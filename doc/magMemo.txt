@@ -1,0 +1,226 @@
+
+*************************************************************************
+magpbx*CLI> dahdi show channel 8
+*************************************************************************
+
+// free act 
+*************************************************************************
+Dialing: no
+Owner: <None>
+Real: <None>
+DSP: no
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently OFF
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Onhook
+
+//dtmf realy on
+********************************************************************************
+Extension:
+Dialing: no
+Owner: DAHDI/8-1
+Real: DAHDI/8-1
+DSP: yes
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently OFF
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook
+
+//remote ring
+************************************************************************
+Dialing: no
+Owner: DAHDI/8-1
+Real: DAHDI/8-1
+DSP: yes
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently ON
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook
+
+//remote rint time out
+********************************************************
+Dialing: no
+Owner: <None>
+Real: <None>
+DSP: no
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently OFF
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook
+
+//connect
+********************************************************************
+Dialing: no
+Owner: DAHDI/8-1
+Real: DAHDI/8-1
+DSP: yes
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently ON
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook
+
+//remote cut Off
+*********************************************************************
+Dialing: no
+Owner: <None>
+Real: <None>
+DSP: no
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently OFF
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook
+
+//remote call, local ring
+*********************************************************************
+Dialing: yes
+Owner: DAHDI/8-1
+Real: DAHDI/8-1
+DSP: yes
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 1/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently OFF
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Onhook
+
+//remote call nonnect
+*********************************************************************
+magpbx*CLI> dahdi show channel 8
+Channel: 8
+Description:
+File Descriptor: 20
+Span: 1
+Extension:
+Dialing: no
+Context: from-dahdi
+Caller ID: 404
+Calling TON: 0
+Caller ID subaddress:
+Caller ID name:
+Mailbox: none
+Destroy: 0
+InAlarm: 0
+Signalling Type: FXO Kewlstart
+Radio: 0
+Owner: DAHDI/8-1
+Real: DAHDI/8-1
+Callwait: <None>
+Threeway: <None>
+Confno: -1
+Propagated Conference: -1
+Real in conference: 0
+DSP: yes
+Busy Detection: no
+TDD: no
+Relax DTMF: no
+Dialing/CallwaitCAS: 0/0
+Default law: ulaw
+Fax Handled: no
+Pulse phone: no
+HW Gains (RX/TX): 0.0/3.0
+SW Gains (RX/TX): 0.00/0.00
+Dynamic Range Compression (RX/TX): 0.00/0.00
+DND: no
+Echo Cancellation:
+        128 taps
+        currently ON
+Wait for dialtone: 0ms
+Actual Confinfo: Num/0, Mode/0x0000
+Actual Confmute: No
+Hookstate (FXS only): Offhook

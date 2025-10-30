@@ -14,6 +14,7 @@ import java.util.logging.Logger;
     sudo apt install net-tools
     (controller need) sudo apt install ffmpeg -y
     chmod paraSet.json to 666
+    chmod record path to 777
 
     copy "voice/josn" path to "/usr/share/asterisk/sounds/en_US/"
     copy "musiconhold.conf" file to "/etc/asterisk"
@@ -28,6 +29,7 @@ public class GB {
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
     static int prgMode = 0;
+    static String webSocketIp="192.168.0.28";
     static String version = "2.0";
     
     
