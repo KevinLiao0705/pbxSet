@@ -23,6 +23,9 @@ class SipData {
     String sipAction;
     String callto;
     String callfrom;
+    String selfName;
+    String selfNumber;
+    
     int connectTime=0;
 
     SipData() {
@@ -39,5 +42,7 @@ class SipData {
         sipAction = "軟體電話 (未連線)";
         callto = "callto";
         callfrom = "callfrom";
+        selfName = "";
+        selfNumber ="";
     }
 }

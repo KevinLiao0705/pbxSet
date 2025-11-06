@@ -566,7 +566,7 @@ public class PbxSet {
                 content += "\ntype=endpoint";
                 content += "\ncontext=from-pstn";
                 content += "\ndisallow=all";
-                content += "\nallow=speex16";
+                content += "\nallow=speex32";
                 content += "\nallow=ulaw";
                 content += "\nallow=alaw";
                 
@@ -632,7 +632,7 @@ public class PbxSet {
                 //content += "\ncontext=from-pstn";
                 content += "\ncontext=" + pbxStr + "_in";
                 content += "\ndisallow=all";
-                content += "\nallow=speex16";
+                content += "\nallow=speex32";
                 content += "\nallow=ulaw";
                 content += "\nallow=alaw";
                 
@@ -719,7 +719,7 @@ public class PbxSet {
                 //content += "\ncontext=from-pstn";
                 content += "\ncontext=" + pbxStr + "_in";
                 content += "\ndisallow=all";
-                content += "\nallow=speex16";
+                content += "\nallow=speex32";
                 content += "\nallow=ulaw";
                 content += "\nallow=alaw";
                 content += "\noutbound_auth=" + pbxStr;
@@ -938,7 +938,7 @@ public class PbxSet {
         content += "\n";
         content += "\n[" + "monitorSeg" + "]";
         content += "\nexten => " + "_*870." + ",1,NoOp()";
-        content += "\n  same => n,ChanSpy(" + "PJSIP/" + "${EXTEN:4})";
+        content += "\n  same => n,ChanSpy(" + "PJSIP/" + "${EXTEN:4},q)";
 
         //===================================================================================
         content += "\n";

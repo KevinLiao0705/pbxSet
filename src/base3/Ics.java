@@ -452,6 +452,30 @@ public class Ics {
                 }
                 sipData.callfrom = new String(strBytes, StandardCharsets.UTF_8);
                 break;
+            case 0x16:
+                if (len == 0) {
+                    sipData.selfName = "";
+                    break;
+                }
+                strBytes = new byte[len];
+                for (int i = 0; i < len; i++) {
+                    strBytes[i] = bytes[inx++];
+                }
+                sipData.selfName = new String(strBytes, StandardCharsets.UTF_8);
+                break;
+            case 0x17:
+                if (len == 0) {
+                    sipData.selfNumber = "";
+                    break;
+                }
+                strBytes = new byte[len];
+                for (int i = 0; i < len; i++) {
+                    strBytes[i] = bytes[inx++];
+                }
+                sipData.selfNumber = new String(strBytes, StandardCharsets.UTF_8);
+                break;
+                
+                
 
         }
         return (len + 2);
@@ -632,6 +656,8 @@ public class Ics {
                     }
                      */
                     //=============================================
+
+
                     String jstr = KvJson.objToJson(cla.icsData, "base3");
                     if (jstr == null) {
                         break;
@@ -658,11 +684,15 @@ public class Ics {
                     }
                     int phoneSet = (int) obj;
                     HashMap<String, Object> sipCommands;
-                    if (phoneSet == 0) {
+                    sipCommands=null;
+                    if (phoneSet == 0) 
                         sipCommands = cla.sip0Commands;
-                    } else {
+                    if (phoneSet == 1) 
                         sipCommands = cla.sip1Commands;
-                    }
+                    if (phoneSet == 2) 
+                        sipCommands = cla.sip2Commands;
+                    if(sipCommands==null)
+                        break;
                     if (strA[0].equals("hotline")) {
                         if (phoneSet == 0) {
                             obj = GB.paraSetMap.get("phAHotlines");
@@ -694,12 +724,40 @@ public class Ics {
                         break;
                     }
                     phoneSet = (int) obj;
-                    if (phoneSet == 0) {
+                    sipCommands=null;
+                    if (phoneSet == 0) 
                         sipCommands = cla.sip0Commands;
-                    } else {
+                    if (phoneSet == 1) 
                         sipCommands = cla.sip1Commands;
-                    }
+                    if (phoneSet == 2) 
+                        sipCommands = cla.sip2Commands;
+                    if(sipCommands==null)
+                        break;
                     sipCommands.put("keyIn", "call " + number);
+                    Base3.log.info("callNumber: softPhone" + (phoneSet + 1) + " ==> " + number);
+                    break;
+                case "listenNumber":
+                    obj = Lib.getJson(mesJson, "number");
+                    if (obj == null) {
+                        break;
+                    }
+                    number = (String) obj;
+                    obj = Lib.getJson(mesJson, "phoneSet");
+                    if (obj == null) {
+                        break;
+                    }
+                    phoneSet = (int) obj;
+                    sipCommands=null;
+                    if (phoneSet == 0) 
+                        sipCommands = cla.sip0Commands;
+                    if (phoneSet == 1) 
+                        sipCommands = cla.sip1Commands;
+                    if (phoneSet == 2) 
+                        sipCommands = cla.sip2Commands;
+                    if(sipCommands==null)
+                        break;
+                        
+                    sipCommands.put("keyIn", "call *870" + number);
                     Base3.log.info("callNumber: softPhone" + (phoneSet + 1) + " ==> " + number);
                     break;
 

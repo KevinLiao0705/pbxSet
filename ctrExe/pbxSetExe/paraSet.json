@@ -12,7 +12,7 @@
 ,"dsc~icsSet" : "number~icsName~outIp~mainIp~subIp"
 ,"icsSet" : "0~icsName0~192.168.192.112~255.255.0.0~192.168.191.1~1234"
 ,"dsc~icsUiSet" : "mainCtrPc ip,mainSoftPhone ip~subSoftPhone ip"
-,"icsUiSet" : "192.168.192.105~192.168.222.111~192.168.222.112~192.168.222.112"
+,"icsUiSet" : "192.168.192.105~192.168.166.132~192.168.222.153~192.168.0.86~130"
 ,"magPhoneCallNumber" : "1234"
 ,"icsGroups" : [
      "1~強弓xx營~192.168.3.230~5060~50~OmniPbx~111~111"
