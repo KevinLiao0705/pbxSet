@@ -708,10 +708,10 @@ public class Ics {
                             Base3.log.info("callNumber: softPhone" + (phoneSet + 1) + " ==> " + number);
 
                         }
-
-                    } else {
-                        sipCommands.put("keyIn", key);
-                    }
+                        break;
+                    }    
+                    sipCommands.put("keyIn", key);
+                    
                     break;
                 case "callNumber":
                     obj = Lib.getJson(mesJson, "number");
@@ -736,6 +736,38 @@ public class Ics {
                     sipCommands.put("keyIn", "call " + number);
                     Base3.log.info("callNumber: softPhone" + (phoneSet + 1) + " ==> " + number);
                     break;
+                    
+                case "transferNumber":
+                    obj = Lib.getJson(mesJson, "number");
+                    if (obj == null) {
+                        break;
+                    }
+                    number = (String) obj;
+                    obj = Lib.getJson(mesJson, "phoneSet");
+                    if (obj == null) {
+                        break;
+                    }
+                    phoneSet = (int) obj;
+                    sipCommands=null;
+                    if (phoneSet == 0) 
+                        sipCommands = cla.sip0Commands;
+                    if (phoneSet == 1) 
+                        sipCommands = cla.sip1Commands;
+                    if (phoneSet == 2) 
+                        sipCommands = cla.sip2Commands;
+                    if(sipCommands==null)
+                        break;
+                    obj = Lib.getJson(mesJson, "number");
+                    if (obj == null) {
+                        break;
+                    }
+                    number = (String) obj;
+                        
+                    sipCommands.put("directSip", "transfer "+ number+"\n");
+                    break;
+                    
+                    
+                    
                 case "listenNumber":
                     obj = Lib.getJson(mesJson, "number");
                     if (obj == null) {
@@ -964,6 +996,25 @@ class IcsTm1 implements ActionListener {
                 cmds.remove(key);
                 break;
             }
+            
+            if (strA[0].equals("directSip")) {
+                String keyInStr = (String) obj;
+                if (keyInStr.equals("#")) {
+                    keyInStr = "ok";
+                }
+
+                byte[] byteArray = keyInStr.getBytes();
+                len = byteArray.length;
+                bytes[inx++] = (byte) (0x11);
+                bytes[inx++] = (byte) (len & 255);
+                for (int i = 0; i < byteArray.length; i++) {
+                    bytes[inx++] = byteArray[i];
+                }
+                cmds.remove(key);
+                break;
+            }
+            
+            
 
         }
         len = inx - 10;
