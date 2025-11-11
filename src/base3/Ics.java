@@ -762,10 +762,40 @@ public class Ics {
                         break;
                     }
                     number = (String) obj;
+                    sipCommands.put("keyIn", "transferNumber " + number);
                         
-                    sipCommands.put("directSip", "transfer "+ number+"\n");
+                    //sipCommands.put("directSip", "transfer "+ number+"\n");
                     break;
                     
+                case "reDirectNumber":
+                    obj = Lib.getJson(mesJson, "number");
+                    if (obj == null) {
+                        break;
+                    }
+                    number = (String) obj;
+                    obj = Lib.getJson(mesJson, "phoneSet");
+                    if (obj == null) {
+                        break;
+                    }
+                    phoneSet = (int) obj;
+                    sipCommands=null;
+                    if (phoneSet == 0) 
+                        sipCommands = cla.sip0Commands;
+                    if (phoneSet == 1) 
+                        sipCommands = cla.sip1Commands;
+                    if (phoneSet == 2) 
+                        sipCommands = cla.sip2Commands;
+                    if(sipCommands==null)
+                        break;
+                    obj = Lib.getJson(mesJson, "number");
+                    if (obj == null) {
+                        break;
+                    }
+                    number = (String) obj;
+                    sipCommands.put("keyIn", "reDirect " + number);
+                        
+                    //sipCommands.put("directSip", "transfer "+ number+"\n");
+                    break;
                     
                     
                 case "listenNumber":
