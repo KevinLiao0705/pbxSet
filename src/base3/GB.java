@@ -28,16 +28,16 @@ public class GB {
     //1: window ConsoleSlot
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
-    static int prgMode = 0;
-    //static String webSocketIp="";
-    static String webSocketIp="192.168.0.28";
-    static String version = "2.0";
+    static int prgMode = 2;
+    static String webSocketIp="";
+    //static String webSocketIp="192.168.0.28";
+    static String version = "3.0";
     
     
     //=====================================
     public static int webSocketServerPort = 25666;
     public static String appName = "pbxSet";
-    public static String winWebRootPath = "E:/kevin/myCode/webIcs/build/web";
+    public static String winWebRootPath = "d:/kevin/myCode/webIcs/build/web";
     public static String linuxWebRootPath = "/var/lib/tomcat9/webapps/ROOT";
     
     
