@@ -521,7 +521,7 @@ public class PbxSet {
 
     }
 
-    public String getPjsipConf() {
+    public String getPjsipConf(int slotCnt) {
         int len;
 
         //=================================================       
@@ -546,6 +546,7 @@ public class PbxSet {
 
             for (String key : GB.exNoMap.keySet()) {
                 ExNoObj obj = GB.exNoMap.get(key);
+                int exSlotCnt = obj.slotCnt;
                 int yes_f = 0;
                 if (obj.type.equals("sip")) {
                     yes_f = 1;
@@ -555,10 +556,16 @@ public class PbxSet {
                 }
                 if (obj.type.equals("roip")) {
                     yes_f = 1;
+                    exSlotCnt = 0;
+                    
                 }
                 if (yes_f == 0) {
                     continue;
                 }
+                if(exSlotCnt!=slotCnt)
+                    continue;
+                
+                
                 String takeGroup = obj.ringGroup;
 
                 content += "\n;=====================================";
@@ -1851,7 +1858,7 @@ public class PbxSet {
                     destFile = new File(GB.asteriskConfPath + "/" + "iax.conf");
                     Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     //
-                    contentStr = getPjsipConf();
+                    contentStr = getPjsipConf(slotCnt);
                     wfName = "./extensions/sipExten/pjsip.conf";
                     fw = new FileWriter(wfName);
                     fw.write(contentStr);

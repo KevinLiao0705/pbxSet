@@ -464,10 +464,16 @@ public class ConsoleSlot {
         }
 
         if (nsta.action.equals("dahdiShowChannel")) {
+    
             if (strA[index].contains("Channel:")) {
                 strB = strA[index].trim().split("\\s+");
-                int ch = Lib.str2int(strB[1], 0) - 5;
-                if (ch >= 0 && ch <= 3) {
+                int ch = Lib.str2int(strB[1], 0) - 1;
+                int chAmt = 8;
+                if (nsta.type.equals("mag")) {
+                    ch = Lib.str2int(strB[1], 0) - 5;
+                    chAmt = 4;
+                }
+                if (ch >= 0 && ch <= chAmt) {
                     dahdiShowChannel_f = 1;
                     if (exStaMapTmp == null) {
                         exStaMapTmp = new HashMap<String, ExStatus>();
@@ -516,10 +522,7 @@ public class ConsoleSlot {
                         if (exStaMapTmp != null) {
                             exStaMapTmp.put(exStaTmp.name, exStaTmp);
                         }
-                        if (exStaTmp.name.equals("404")) {
-                            int hh = 1;
-
-                        }
+                        
                         exStaTmp = null;
                         pjsipAction_f = 0;
                         dahdiShowChannel_f = 0;
@@ -1505,7 +1508,29 @@ class ConsoleSlotTm1 extends TimerTask {
                         cla.nsta.actionTim = 10;
                         cla.pbxSet.sshWriteShl("sudo asterisk -rx \"dahdi show channel " + (cla.nstaStep + 5) + "\"\n");
                         cla.pjsipAction_f = 1;
+                    }
 
+                    if (cla.nsta.type.equals("fxs")) {
+                        cla.exStatusFlag = 0;
+                        if (cla.exStaMapTmp != null) {
+                            Set<String> keySet = cla.exStaMapTmp.keySet();
+                            for (String keyStr : keySet) {
+                                ExStatus ex = cla.exStaMapTmp.get(keyStr);
+                                ex.connectTime++;
+                                if (ex.connectTime > 50 * 4) {
+                                    cla.exStaMapTmp.remove(keyStr);
+                                }
+                                cla.exStatusFlag += ex.status << (ex.ch * 4);
+                            }
+                            cla.exStaMap = cla.exStaMapTmp;
+                        }
+                        if (++cla.nstaStep >= 8) {
+                            cla.nstaStep = 0;
+                        }
+                        cla.nsta.action = "dahdiShowChannel";
+                        cla.nsta.actionTim = 10;
+                        cla.pbxSet.sshWriteShl("sudo asterisk -rx \"dahdi show channel " + (cla.nstaStep + 1) + "\"\n");
+                        cla.pjsipAction_f = 1;
                     }
 
                 }
