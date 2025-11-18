@@ -28,7 +28,7 @@ public class GB {
     //1: window ConsoleSlot
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
-    static int prgMode = 2;
+    static int prgMode = 3;
     static String webSocketIp="";
     //static String webSocketIp="192.168.0.28";
     static String version = "3.2";
@@ -39,6 +39,7 @@ public class GB {
     public static String appName = "pbxSet";
     public static String winWebRootPath = "d:/kevin/myCode/webIcs/build/web";
     public static String linuxWebRootPath = "/var/lib/tomcat9/webapps/ROOT";
+    static String ntpConfPathName = "./timesyncd.conf";
     
     
     
@@ -334,6 +335,7 @@ public class GB {
             GB.interfaces_path = "/etc/network/interfaces";
             GB.asteriskConfPath = "./asteriskConfPath";
             GB.webRootPath = GB.linuxWebRootPath;
+            GB.ntpConfPathName = "/etc/systemd/timesyncd.conf";
         }
         if (GB.prgMode == 3) {
             GB.process_inx = 1; //0:consoleMain, 1:consoleSlot 
@@ -343,6 +345,7 @@ public class GB {
             GB.interfaces_path = "/etc/network/interfaces";
             GB.asteriskConfPath = "./asteriskConfPath";
             GB.webRootPath = GB.linuxWebRootPath;
+            GB.ntpConfPathName = "/etc/systemd/timesyncd.conf";
         }
         GB.chgSlotType();
         //=============================================================

@@ -398,6 +398,9 @@ public class ConsoleSlot {
                                 GB.chgSlotType();
                                 String ipStr = GB.getSlotIp();
                                 System.out.println("\nchangeIp to " + ipStr);
+                                String[] strA=ipStr.split("\\.");
+                                String ntpIp="192.168."+strA[2]+".99";
+                                Lib.wrNtp(ntpIp);
 
                                 resetIp(ipStr);
                             }

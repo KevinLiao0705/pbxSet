@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package base3;
-
+    
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,6 +88,28 @@ public class Lib {
         }
     }
     
+    
+    
+    static int wrNtp(String ip) {
+        String fname;
+        String bstr;
+        fname = GB.ntpConfPathName;
+        System.out.println("ntpIp "+ip+ " ==>"+fname);
+
+        try {
+            FileWriter fw = new FileWriter(fname);
+            fw.write("[Time]\n");
+            fw.write("NTP="+ip+"\n");
+            fw.flush();
+            fw.close();
+            return 1;
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return 0;
+    }
     
 
     static void copyFileUsingStream(File source, File dest) throws IOException {

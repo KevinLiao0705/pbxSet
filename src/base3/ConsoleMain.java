@@ -650,6 +650,10 @@ public class ConsoleMain {
                     }
                     
                     
+                    String ntpIp="192.168."+strA[2]+".99";
+                    Lib.wrNtp(ntpIp);
+                    
+                    
                     if(GB.ctrMast_f==1){
                         netName=netName+":1";
                         String[] strX=netAddr.split("\\.");
