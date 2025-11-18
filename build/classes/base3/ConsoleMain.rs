@@ -1,6 +1,0 @@
-base3.ConsoleMain
-base3.ConsoleMainTm1
-base3.ConsoleMainTm1$SlotData
-base3.SlotData
-base3.ConsoleMainCmdExe
-base3.ConsoleMainTm1$ConsoleMainCmdExe

@@ -28,7 +28,7 @@ public class GB {
     //1: window ConsoleSlot
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
-    static int prgMode = 1;
+    static int prgMode = 2;
     static String webSocketIp="";
     //static String webSocketIp="192.168.0.28";
     static String version = "3.2";
@@ -279,7 +279,7 @@ public class GB {
             GB.mainpbx_user = "magpbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "magpbx";
-            GB.mainpbx_homePrompt = "magpbx@magpbx:~$";
+            GB.mainpbx_homePrompt = "magpbx@fxspbx:~$";
         }
         
         if (GB.slotType.equals("t1s")) {
