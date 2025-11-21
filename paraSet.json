@@ -12,14 +12,13 @@
 ,"dsc~icsSet" : "number~icsName~outIp~mainIp~subIp"
 ,"icsSet" : "0~icsName0~192.168.192.112~255.255.0.0~192.168.191.1~1234"
 ,"dsc~icsUiSet" : "mainCtrPc ip,mainSoftPhone ip~subSoftPhone ip"
-,"icsUiSet" : "192.168.192.105~192.168.191.201~192.168.192.202~192.168.2.2~166"
+,"icsUiSet" : "192.168.192.105~192.168.11.1~192.168.11.2~192.168.222.111~143"
 ,"magPhoneCallNumber" : "1234"
 ,"ntpServerIp" : "192.168.11.22"
-
-
 ,"icsGroups" : [
      "1~強弓xx營~192.168.3.230~5060~50~OmniPbx~111~111"
     ,"2~強弓xx連~192.168.0.3~5060~02~OmniPbx~user~1234"
+    ,"3~ICS~192.168.191.2~5060~*12~JosnPbx~user~1234"
     ]
 ,"slotSet_ctr_0" : "192.168.191.9~25000"
 ,"slotSet_ctr_1" : "192.168.191.19~25001"

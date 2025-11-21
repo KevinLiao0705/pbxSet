@@ -28,7 +28,7 @@ public class GB {
     //1: window ConsoleSlot
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
-    static int prgMode = 3;
+    static int prgMode = 0;
     static String webSocketIp="";
     //static String webSocketIp="192.168.0.28";
     static String version = "3.2";
@@ -246,7 +246,7 @@ public class GB {
             GB.mainpbx_user = "mainpbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "mainpbx";
-            GB.mainpbx_homePrompt = "mainpbx@mainpbx:~$";
+            GB.mainpbx_homePrompt = "mainpbx@mainpbx:~";
         }
         if (GB.slotType.equals("fxo")) {
             if (GB.prgMode == 2 || GB.prgMode == 3) {
@@ -257,7 +257,7 @@ public class GB {
             GB.mainpbx_user = "fxopbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "fxopbx";
-            GB.mainpbx_homePrompt = "fxopbx@fxopbx:~$";
+            GB.mainpbx_homePrompt = "fxopbx@fxopbx:~";
         }
         if (GB.slotType.equals("fxs")) {
             if (GB.prgMode == 2 || GB.prgMode == 3) {
@@ -268,7 +268,7 @@ public class GB {
             GB.mainpbx_user = "fxspbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "fxspbx";
-            GB.mainpbx_homePrompt = "fxspbx@fxspbx:~$";
+            GB.mainpbx_homePrompt = "fxspbx@fxspbx:~";
         }
         
         if (GB.slotType.equals("mag")) {
@@ -280,7 +280,7 @@ public class GB {
             GB.mainpbx_user = "magpbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "magpbx";
-            GB.mainpbx_homePrompt = "magpbx@fxspbx:~$";
+            GB.mainpbx_homePrompt = "magpbx@fxspbx:~";
         }
         
         if (GB.slotType.equals("t1s")) {
@@ -292,7 +292,7 @@ public class GB {
             GB.mainpbx_user = "t1pbx";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "t1pbx";
-            GB.mainpbx_homePrompt = "t1pbx@t1pbx:~$";
+            GB.mainpbx_homePrompt = "t1pbx@t1pbx:~";
         }
         if (GB.slotType.equals("ctr")) {
             if (GB.prgMode == 2 || GB.prgMode == 3) {
@@ -303,7 +303,7 @@ public class GB {
             GB.mainpbx_user = "controller";
             GB.mainpbx_password = "123456789";
             GB.mainpbx_hostName = "controller";
-            GB.mainpbx_homePrompt = "controller@controller:~$";
+            GB.mainpbx_homePrompt = "controller@controller:~";
         }
 
     }

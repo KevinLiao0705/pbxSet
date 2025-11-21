@@ -99,7 +99,7 @@ public class Ics {
 
     JSONObject tickBackValue;
     int debugCnt = 1;
-    HashMap<String, Object> paraSetMap = new HashMap();
+    //HashMap<String, Object> paraSetMap = new HashMap();
 
     public Ics() {
         cla = this;
@@ -231,7 +231,7 @@ public class Ics {
     }
 
     int getSlotCnt(String exNumber) {
-        Object obj = cla.paraSetMap.get("phExNos");
+        Object obj = GB.paraSetMap.get("phExNos");
         JSONArray exnos;
         try {
             exnos = new JSONArray(obj.toString());
@@ -261,7 +261,7 @@ public class Ics {
             }
         }
 
-        obj = cla.paraSetMap.get("broadGroups");
+        obj = GB.paraSetMap.get("broadGroups");
         JSONArray broadObj;
         try {
             broadObj = new JSONArray(obj.toString());
@@ -286,7 +286,7 @@ public class Ics {
             }
         }
 
-        obj = cla.paraSetMap.get("meetGroups");
+        obj = GB.paraSetMap.get("meetGroups");
         JSONArray meetObj;
         try {
             meetObj = new JSONArray(obj.toString());
@@ -323,7 +323,7 @@ public class Ics {
         int packLen = (bytes[6] & 255) + (bytes[7] & 255) * 256;
         int commandId = (bytes[8] & 255) + (bytes[9] & 255) * 256;
 
-        String icsUiSet = cla.paraSetMap.get("icsUiSet").toString();
+        String icsUiSet = GB.paraSetMap.get("icsUiSet").toString();
         String[] strA = icsUiSet.split("~");
         for (int i = 0; i < strA.length; i++) {
             String[] strB = strA[i].split("\\.");
@@ -483,7 +483,7 @@ public class Ics {
     }
 
     public void getParaSetMap() {
-        cla.paraSetMap.clear();
+        GB.paraSetMap.clear();
         String fileName = GB.exePath + "/paraSet.json";
         System.out.println(fileName);
         try {
@@ -529,7 +529,7 @@ public class Ics {
                 while (it.hasNext()) {
                     String key = it.next();
                     Object obj = jsObj.get(key);
-                    paraSetMap.put(key, obj);
+                    GB.paraSetMap.put(key, obj);
                 }
                 return;
             } catch (Exception ex) {
@@ -1095,7 +1095,7 @@ class IcsTm1 implements ActionListener {
         }
          */
         try {
-            String icsUiSet = cla.paraSetMap.get("icsUiSet").toString();
+            String icsUiSet = GB.paraSetMap.get("icsUiSet").toString();
             String[] strA = icsUiSet.split("~");
 
             if (cla.mainSoftPhone_exist_f != 0) {

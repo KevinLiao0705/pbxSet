@@ -625,6 +625,10 @@ public class ConsoleMain {
                     
                     //Lib.wrInterfaces(strCmdA[1], strCmdA[2], GB.maskStr, GB.gatewayStr);
                     System.out.println("Change " + strCmdA[1] + " Ip to " + strCmdA[2] + " OK.");
+                    
+                    String ntpIp = GB.paraSetMap.get("ntpServerIp").toString();
+                    Lib.wrNtp(ntpIp);
+                    
                     //pp = java.lang.Runtime.getRuntime().exec(winCmds);
                     //pp.waitFor();
                     //System.out.print(pp);
@@ -648,9 +652,8 @@ public class ConsoleMain {
                     for (int i = 0; i < 4; i++) {
                         GB.realIp[i] = (byte) (Lib.str2int(strA[i], 0) & 255);
                     }
-                    
-                    
-                    String ntpIp="192.168."+strA[2]+".99";
+
+                    String ntpIp = GB.paraSetMap.get("ntpServerIp").toString();
                     Lib.wrNtp(ntpIp);
                     
                     
