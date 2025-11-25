@@ -1644,6 +1644,18 @@ public class PbxSet {
                     content += "\n  same => n,Hangup()";
                 }
             }
+            
+            content += "\n";
+            content += "\nexten => _.,1,NoOp()";
+            content += "\n  same => n,Answer()";
+            content += "\n  same => n,MixMonitor(/home/t1pbx/kevin/pbxSetExe/record/${STRFTIME(${EPOCH},,%y%m%d_%H%M%S)}_${EXTEN}_${CALLERID(num)}.gsm,b)";
+            content += "\n  same => n,Dial(DAHDI/G0/${EXTEN},"+0+")";
+            content += "\n  same => n,Hangup()";
+            content += "\n";
+            
+            
+            
+            
 
             content += "\n";
             content += "\n[from-dahdi]";

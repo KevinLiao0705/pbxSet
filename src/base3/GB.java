@@ -28,10 +28,10 @@ public class GB {
     //1: window ConsoleSlot
     //2: linux ConsoleMain
     //3: linux ConsoleSlot
-    static int prgMode = 0;
-    //static String webSocketIp="";
-    static String webSocketIp="192.168.0.128";
-    static String version = "3.2";
+    static int prgMode = 3;
+    static String webSocketIp="";
+    //static String webSocketIp="192.168.0.28";
+    static String version = "3.3";
     
     
     //=====================================
